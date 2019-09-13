@@ -1,0 +1,71 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <img src="http://techclub.team/images/output-onlinepngtools.png" class="img-fluid" />
+        </div>
+        <div class="sidebar-brand-text mx-3">MACS<sup></sup></div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <% if(page == "home") { %>
+    <li class="nav-item active">
+        <% } else {%>
+    <li class="nav-item">
+        <% } %>
+        <a class="nav-link" href="/">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Main Page</span></a>
+    </li>
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <% if(page == "problem") { %>
+    <li class="nav-item active">
+        <% } else {%>
+    <li class="nav-item">
+        <% } %>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Problems</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <% for(var i=0; i < problem.length; i++){ %>
+                    <a class="collapse-item" href="/problem?no=<%= problem[i].problem_no %>">Problem <%= problem[i].problem_no %></a>
+                <% } %>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <% if(page == "scoreboard") { %>
+    <li class="nav-item active">
+        <% } else {%>
+    <li class="nav-item">
+        <% } %>
+        <a class="nav-link" href="/scoreboard">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Scoreboard</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>
+<!-- End of Sidebar -->

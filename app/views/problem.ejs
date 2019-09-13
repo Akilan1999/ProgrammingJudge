@@ -1,0 +1,109 @@
+<%- include partials/head.ejs %>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <%- include partials/sidenav.ejs %>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <%- include partials/navbar.ejs %>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+
+                    <% for(var i=0; i < problem.length; i++){ %>
+                    <!-- Page Heading -->
+                    <% if(no == problem[i].problem_no) { %>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800"><%= problem[i].problem_name %></h1>
+                    </div>
+
+                    <div class="col-lg-10">
+
+                        <!-- Dropdown Card Example -->
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <%= problem[i].problem_summary %>
+                                <br>
+                                <br>
+                                <a href="/problem<%= problem[i].problem_no%>/<%= problem[i].pdf_file_name%>"
+                                    class="btn btn-secondary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                    <span class="text">View in detail</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% } %>
+
+                    <div class="col-lg-10">
+
+                        <!-- Dropdown Card Example -->
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <h3>Post Solution</h3>
+                                <br>
+                                <form class="user" enctype="multipart/form-data" method="POST" action="/submitproblem">
+                                    <input type="hidden" name="problem_no" value="<%= no %>" />
+                                    <div class="form-group">
+                                        <input type="file" class="" id="" aria-describedby="" name="Code_file">
+                                    </div>
+                                    <button type="submit" class="btn btn-secondary btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </span>
+                                        <span class="text">Upload file</span>
+                                    </button>
+
+
+                                </form>
+                                <br>
+                                <h5>Your Current Score : <%= curscore %></h5>
+                                <h4 style="color:black">Your Highest Score :<span id="highscoreUser"> 0 </span></h4>
+                                <h5>Highest Score in competition:<span id="highscore"> 0 </span></h5>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!--LocalScript-->
+            <script>
+                function update_highscore() {
+                    $.get("/HighestScoreProblemUser?no=<%- no %>", function (data, status) {
+                        $("#highscoreUser").html(data);
+                    });
+                }
+
+                function update_highscoreproblem() {
+                    $.get("/HighestScoreProblem?no=<%- no %>", function (data, status) {
+                        $("#highscore").html(data);
+                    });
+                }
+
+                setTimeout(update_highscore, 1000);
+                setTimeout(update_highscoreproblem, 500);
+            </script>
+
+            <%- include partials/footer.ejs %>

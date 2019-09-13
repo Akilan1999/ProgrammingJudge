@@ -1,0 +1,1 @@
+ create table user_info(user_no int primary key auto increment , username varchar(50) unique, password varchar(100), email varchar(100), profile_path varchar(100));
