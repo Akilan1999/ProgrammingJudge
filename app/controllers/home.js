@@ -117,9 +117,9 @@ exports.submitproblem = function (req, res) {
 
         if (result_1.length > 0) {
           if (body >= result_1[0].score) {
-            DB_config.connection.query('delete from problem_score where problem_no = ? AND user_no = ?', [problem_no, session.user_id,], function (error_query_2, result_2, fields_2) {
+            DB_config.connection.query('delete from problem_score where problem_no = ? AND user_no = ?', [Problem_no, session.user_id,], function (error_query_2, result_2, fields_2) {
 
-              DB_config.connection.query('insert into problem_score(user_no,problem_no,score) values(?,?,?) ', [session.user_id, problem_no, body], function (error_query_3, result_3, fields_3) {
+              DB_config.connection.query('insert into problem_score(user_no,problem_no,score) values(?,?,?) ', [session.user_id, Problem_no, body], function (error_query_3, result_3, fields_3) {
 
                 res.redirect('/problem?no=' + Problem_no + '&curscore=' + body);
                 //res.json(result_1);
