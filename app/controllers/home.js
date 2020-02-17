@@ -6,6 +6,8 @@ const DB_config = require('../../config/database.js');
 //This is used for external API's
 const request = require('request');
 
+const moment = require('moment');
+
 
 exports.home = function (req, res) {
 
@@ -92,11 +94,36 @@ exports.submitproblem = function (req, res) {
     fs.mkdirSync(with_problem);
   }
 
+  var Timestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+  var details = {
+    'timestamp' : Timestamp,
+    'filename' : Code_file.name,
+     'user_id' : req.session.user_id
+  }
+
+  // write to a new file named 2pac.txt
+  fs.writeFile(with_problem + '/' + Timestamp + '.txt', JSON.stringify(details), (err) => {
+    // throws an error, you could also catch it here
+    if (err) throw err;
+  });
+
 
   Code_file.mv(__dirname + '/user_solution/'+ Username + '/problem' + Problem_no + '/'+ Code_file.name);
 
+  var message = ' ' + req.session.name + ' ' + ': Problem '+ req.body.problem_no + '\n Timestamp : '+ Timestamp + '\n filename :' + Code_file.name + '\n user_id :' + req.session.user_id;
 
-   request.post( {
+  request.post('https://api.telegram.org/bot912028791:AAFaBzIwk635kr1gR4nU1B190EhMASrhpKQ/sendMessage', {
+    json: {
+      chat_id: "-322944630", // Temporary testing 
+      text: message
+    }
+  }, (error, res1, body) => {
+   // res.redirect('/?sentmessage=' + body.ok);
+  });
+
+
+  /* request.post( {
       url:'http://localhost:5000/postsolution',
       formData: {
         file:  fs.createReadStream(__dirname +'/user_solution/'+ Username + '/problem' + Problem_no + '/'+ Code_file.name),
@@ -149,12 +176,14 @@ exports.submitproblem = function (req, res) {
 
       console.log(body);
 
-     fs.unlink(__dirname + '/user_solution/'+ Username + '/problem' + Problem_no + '/'+ Code_file.name, function (err) {
+   /*  fs.unlink(__dirname + '/user_solution/'+ Username + '/problem' + Problem_no + '/'+ Code_file.name, function (err) {
         if (err) throw err;
     }); 
 
     }
-  });
+  }); */
+
+  res.redirect('/problem?no=' + Problem_no);
 
 }
 
